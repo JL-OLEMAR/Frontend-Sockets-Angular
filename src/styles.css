@@ -1,6 +1,21 @@
+body {
+  margin-bottom: 100px;
+}
+
 footer {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
+}
+
+#chat-mensajes {
+  border-radius: 5px;
+  border: 1px solid gray;
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.chat-input {
+  margin-top: 10px;
 }

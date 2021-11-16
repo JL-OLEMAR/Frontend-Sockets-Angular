@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { ChatService } from '../../services/chat.service'
@@ -10,12 +11,23 @@ import { ChatService } from '../../services/chat.service'
 export class ChatComponent implements OnInit, OnDestroy {
   texto: string = ''
   mensajeSubscription: Subscription = Subscription.EMPTY
+  elemento!: HTMLElement
+  mensajes: any[] = []
 
   constructor (public chatService: ChatService) { }
 
   ngOnInit (): void {
+    // capturar el elemento del chat para poderlo scrollear
+    this.elemento = document.getElementById('chat-mensajes')!
+
+    // suscribirse al observable para recibir los mensajes y mostrarlos
     this.mensajeSubscription = this.chatService.getMessages().subscribe(msg => {
-      console.log(msg)
+      this.mensajes.push(msg)
+
+      // scroll al final del chat
+      setTimeout(() => {
+        this.elemento.scrollTop = this.elemento.scrollHeight
+      }, 50)
     })
   }
 
@@ -24,7 +36,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.mensajeSubscription.unsubscribe()
   }
 
+  // Enviar mensaje y limpiar el input
   enviar (): void {
+    if (this.texto.trim().length === 0) { return } // no enviar mensajes vacios
     this.chatService.sendMessage(this.texto)
     this.texto = ''
   }
