@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
 import { WebsocketService } from './websocket.service'
 
 @Injectable({
@@ -14,5 +15,10 @@ export class ChatService {
       cuerpo: mensaje
     }
     this.wsService.emit('mensaje', payload)
+  }
+
+  // Listen to the 'mensaje' event
+  getMessages (): Observable<any> {
+    return this.wsService.listen('mensaje-nuevo')
   }
 }
