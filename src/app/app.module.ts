@@ -3,7 +3,9 @@ import { BrowserModule } from '@angular/platform-browser'
 import { FormsModule } from '@angular/forms'
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
 
+import { AppRoutingModule } from './app-routing.module'
 import { environment } from '../environments/environment'
+
 import { AppComponent } from './app.component'
 import { ChatComponent } from './components/chat/chat.component'
 import { FooterComponent } from './components/footer/footer.component'
@@ -28,7 +30,8 @@ const config: SocketIoConfig = {
   imports: [
     BrowserModule,
     FormsModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
