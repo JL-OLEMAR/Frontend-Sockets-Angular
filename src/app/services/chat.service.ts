@@ -14,6 +14,8 @@ export class ChatService {
       de: 'Pepito',
       cuerpo: mensaje
     }
+
+    // Emit the event 'mensaje' with the payload
     this.wsService.emit('mensaje', payload)
   }
 

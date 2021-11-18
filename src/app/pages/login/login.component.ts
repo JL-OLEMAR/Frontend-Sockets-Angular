@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core'
+import { WebsocketService } from '../../services/websocket.service'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class LoginComponent implements OnInit {
-  // constructor () { }
+  nombre: string = ''
+  constructor (public wsService: WebsocketService) { }
 
   ngOnInit (): void {
+  }
+
+  ingresar (): void {
+    this.wsService.loginWS(this.nombre)
+    this.nombre = ''
   }
 }
