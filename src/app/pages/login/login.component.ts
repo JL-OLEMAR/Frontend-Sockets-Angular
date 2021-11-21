@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 import { WebsocketService } from '../../services/websocket.service'
 
 @Component({
@@ -6,15 +8,18 @@ import { WebsocketService } from '../../services/websocket.service'
   templateUrl: './login.component.html',
   styles: []
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   nombre: string = ''
-  constructor (public wsService: WebsocketService) { }
 
-  ngOnInit (): void {
-  }
+  constructor (
+    public wsService: WebsocketService,
+    private readonly router: Router
+  ) { }
 
-  ingresar (): void {
-    this.wsService.loginWS(this.nombre)
+  ingresar (): any {
+    this.wsService.loginWS(this.nombre).then(() => {
+      this.router.navigateByUrl('/mensajes')
+    })
     this.nombre = ''
   }
 }

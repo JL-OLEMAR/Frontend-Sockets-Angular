@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core'
 import { Socket } from 'ngx-socket-io'
 import { Observable } from 'rxjs'
-// import { Usuario } from '../models/usuario'
+import { Usuario } from '../models/usuario'
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
   public socketStatus: boolean = false
-  // public usuario: Usuario
+  public usuario!: Usuario
 
-  constructor (private readonly socket: Socket) { this.checkStatus() }
+  constructor (private readonly socket: Socket) {
+    this.cargarStorage()
+    this.checkStatus()
+  }
 
   // Check the status of the socket
   checkStatus (): void {
@@ -39,12 +42,26 @@ export class WebsocketService {
   }
 
   // Emit an event loginWS to the server
-  loginWS (nombre: string): void {
-    console.log('Configurando', nombre)
-
+  loginWS (nombre: string): any {
+    return new Promise((resolve, reject) => {
     // Reultiliza el método emit para emitir el evento configurar-usuario
-    this.emit('configurar-usuario', { nombre }, (resp: any) => {
-      console.log(resp)
+      this.emit('configurar-usuario', { nombre }, (resp: any) => {
+        this.usuario = new Usuario(nombre)
+        this.guardarStorage()
+        resolve(resp)
+      })
     })
+  }
+
+  // Save the user in the localStorage
+  guardarStorage (): void {
+    localStorage.setItem('usuario', JSON.stringify(this.usuario))
+  }
+
+  // Get the user from the localStorage
+  cargarStorage (): void {
+    if (localStorage.getItem('usuario') !== null) {
+      this.usuario = JSON.parse(localStorage.getItem('usuario') as string)
+    }
   }
 }

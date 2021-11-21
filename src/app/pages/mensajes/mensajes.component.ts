@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
+import { WebsocketService } from '../../services/websocket.service'
 
 @Component({
   selector: 'app-mensajes',
   templateUrl: './mensajes.component.html',
-  styles: [
-  ]
+  styles: []
 })
-export class MensajesComponent implements OnInit {
-  // constructor () { }
-
-  ngOnInit (): void {
-  }
+export class MensajesComponent {
+  constructor (public wsService: WebsocketService) { }
 }
