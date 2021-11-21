@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Injectable } from '@angular/core'
 import { Socket } from 'ngx-socket-io'
 import { Observable } from 'rxjs'
@@ -53,6 +54,11 @@ export class WebsocketService {
     })
   }
 
+  // Get the object user
+  getUsuario (): Usuario {
+    return this.usuario
+  }
+
   // Save the user in the localStorage
   guardarStorage (): void {
     localStorage.setItem('usuario', JSON.stringify(this.usuario))
@@ -60,7 +66,7 @@ export class WebsocketService {
 
   // Get the user from the localStorage
   cargarStorage (): void {
-    if (localStorage.getItem('usuario') !== null) {
+    if (localStorage.getItem('usuario')) {
       this.usuario = JSON.parse(localStorage.getItem('usuario') as string)
     }
   }
