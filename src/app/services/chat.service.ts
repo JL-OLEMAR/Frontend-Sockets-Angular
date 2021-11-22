@@ -33,4 +33,9 @@ export class ChatService {
   getUsuariosActivos (): Observable<any> {
     return this.wsService.listen('usuarios-activos')
   }
+
+  // Emit the event 'obtener-usuarios'
+  emitirUsuariosActivos (): void {
+    this.wsService.emit('obtener-usuarios')
+  }
 }
