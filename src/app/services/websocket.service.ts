@@ -22,6 +22,7 @@ export class WebsocketService {
     this.socket.on('connect', () => {
       console.log('Conectado al servidor')
       this.socketStatus = true
+      this.cargarStorage()
     })
 
     // Socket emit an event when the connection is closed
