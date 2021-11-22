@@ -8,4 +8,8 @@ import { WebsocketService } from '../../services/websocket.service'
 })
 export class MensajesComponent {
   constructor (public wsService: WebsocketService) { }
+
+  salir (): void {
+    this.wsService.logoutWS()
+  }
 }

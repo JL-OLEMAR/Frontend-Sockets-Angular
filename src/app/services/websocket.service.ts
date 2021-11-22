@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-floating-promises */
 import { Injectable } from '@angular/core'
-import { Socket } from 'ngx-socket-io'
+import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
+import { Socket } from 'ngx-socket-io'
 import { Usuario } from '../models/usuario'
 
 @Injectable({
@@ -11,7 +12,10 @@ export class WebsocketService {
   public socketStatus: boolean = false
   public usuario!: Usuario
 
-  constructor (private readonly socket: Socket) {
+  constructor (
+    private readonly socket: Socket,
+    public router: Router
+  ) {
     this.cargarStorage()
     this.checkStatus()
   }
@@ -46,13 +50,23 @@ export class WebsocketService {
   // Emit an event loginWS to the server
   loginWS (nombre: string): any {
     return new Promise((resolve, reject) => {
-    // Reultiliza el método emit para emitir el evento configurar-usuario
+      // Reultiliza el método emit para emitir el evento configurar-usuario
       this.emit('configurar-usuario', { nombre }, (resp: any) => {
         this.usuario = new Usuario(nombre)
         this.guardarStorage()
         resolve(resp)
       })
     })
+  }
+
+  // Emit an event logoutWS to the server
+  logoutWS (): void {
+    this.usuario.nombre = ''
+    localStorage.removeItem('usuario')
+
+    const payload = { nombre: 'sin-nombre' }
+    this.emit('configurar-usuario', payload, () => {})
+    this.router.navigateByUrl('/')
   }
 
   // Get the object user
