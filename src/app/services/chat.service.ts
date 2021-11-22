@@ -28,4 +28,9 @@ export class ChatService {
   getMessagesPrivate (): Observable<any> {
     return this.wsService.listen('mensaje-privado')
   }
+
+  // Listen to the 'usuarios-activos' event
+  getUsuariosActivos (): Observable<any> {
+    return this.wsService.listen('usuarios-activos')
+  }
 }
